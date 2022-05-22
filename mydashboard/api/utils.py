@@ -10,17 +10,41 @@ from urllib.parse import urlparse, parse_qs
 import json
 import time
 import pandas as pd
+from datetime import datetime,timedelta
 
 app_id = 'F8QQEC8OV3-100'
 app_secret = '1E0WOPB0EV'
 redirect_url = 'http://localhost:8000/auth'
 
+aaj = datetime.today()
+fromDate = aaj - timedelta(days=3650)
 def get_stock_data(request,symbol):
     fyers = fyersModel.FyersModel(client_id=app_id, token=get_access_token(request),log_path="")
     data = {"symbol": symbol,"resolution":"D","date_format":"1","range_from":"2022-04-01","range_to":"2022-05-17","cont_flag":"1"}
     historical_data = fyers.history(data)
     df = pd.DataFrame.from_dict(historical_data['candles'])
     df.columns=['time','open','high','low','close','volume']
+
+        # initializing N
+    N = 7
+    
+    temp = []
+    
+    # getting diff.
+    diff = ( test_date2 - test_date1) // N
+    for idx in range(0, N):
+        
+        # computing new dates
+        temp.append((test_date1 + idx * diff))
+    
+    # using strftime to convert to userfriendly 
+    # format
+    res = []
+    for sub in temp:
+        res.append(sub.strftime("%Y-%m-%d"))
+    
+    # printing result
+    print("N equal duration dates : " + str(res))
     # df['time'] = pd.to_datetime(df['time'],unit='s')
     # df['time'] = df['time'].dt.tz_localize("utc").dt.tz_convert("Asia/Kolkata")
     # df['time'] = df['time'].dt.tz_localize(None)             
