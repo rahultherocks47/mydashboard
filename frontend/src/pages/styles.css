@@ -1,0 +1,14 @@
+.AppBox{
+    margin:0;
+    height:100%;
+}
+
+.AppBox {  
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.chart-container {   
+  flex: 1;
+}
